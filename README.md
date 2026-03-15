@@ -105,8 +105,10 @@ Peak ordering occurs between **late morning and afternoon**, suggesting ideal pr
 
 The project includes several analytical visualizations built using Matplotlib:
 
-* Customer Retention Curve   
-* SURVIVAL RETENTION CURVE
+* Customer Retention Curve   ![Alt text]([path/to/your/image.png](https://github.com/aaravsaini2207-dev/instacart-customer-behavioranalysis/blob/721b6041c9b16698d2e54f2dfa3d17db897fab26/Screenshot%202026-03-15%20143134.png))
+
+* SURVIVAL RETENTION CURVE ![Alt text](path/to/your/image.png)
+
 * Basket Size Distribution
 * Orders by Hour of Day
 * Customer Lifetime Value Distribution
