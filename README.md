@@ -1,216 +1,97 @@
-# Instacart Customer Behavior Analysis (SQL + Python)
+# Instacart Customer Behavior Analysis
 
-What insights can we uncover from **3+ million grocery orders**?
+**SQL + Python analytics on 3.4M orders, ~200K customers, and ~32M product-level purchases.**
 
-This project analyzes the Instacart Market Basket dataset to understand **customer behavior, retention patterns, shopping habits, and product relationships**.
+This project turns Instacart transaction data into customer-retention, shopping-behaviour, basket, and product-relationship insights using **MySQL and Python**.
 
-Using SQL and Python, the project builds a full analytics pipeline including:
+## What I analyzed
 
-• Customer lifecycle and retention analysis
-• Basket size and shopping behavior analysis
-• Customer lifetime value estimation
-• Temporal ordering patterns
-• Product recommendation relationships
-
-The goal is to demonstrate how raw transactional data can be transformed into **actionable business insights**.
-
+- **Retention & lifecycle** — order-level retention, survival curves, customer drop-off
+- **Customer behaviour** — order frequency, basket size, reorder ratio, customer lifespan
+- **Customer value** — lifetime purchase activity and high-engagement segments
+- **Shopping patterns** — ordering hours and temporal behaviour
+- **Product relationships** — frequently associated products for cross-sell opportunities
+- **Customer features** — RFM-style features, category diversity, order frequency, recency signals
 
 ## Dataset
 
-Dataset used: **Instacart Market Basket Analysis**
+| Scale | Value |
+|---|---:|
+| Orders | **~3.4M** |
+| Customers | **~200K** |
+| Product purchases | **~32M** |
+| Products | **50K+** |
 
-Scale of the data:
+Core tables: `orders`, `order_products_prior`, `products`, `aisles`, `departments`.
 
-* ~3.4 million orders
-* ~200k customers
-* ~32 million product purchases
-* 50k+ products
+## Technical work
 
-Main tables:
+The SQL workflow uses:
 
-| Table                | Description                      |
-| -------------------- | -------------------------------- |
-| orders               | Customer order history           |
-| order_products_prior | Products purchased in each order |
-| products             | Product information              |
-| aisles               | Product aisle category           |
-| departments          | Product department category      |
+**CTEs · Window Functions · Aggregations · CASE logic · Joins · Cohort/retention analysis · Survival analysis · Customer-level feature engineering**
 
+The project builds customer-level features including:
 
+```text
+total_orders
+max_order_number
+customer_lifespan
+average_order_gap
+max_order_gap
+total_products
+unique_products
+average_basket_size
+reorder_ratio
+unique_departments
+unique_aisles
+order_frequency_rate
+```
 
-## Project Structure
+It also derives a customer timeline and **true recency** from cumulative order gaps, then builds survival and hazard-style analyses.
 
-instacart-customer-behavior-analysis
+## Key business insights
 
-data/
-sql/
-• data_loading.sql
-• feature_engineering.sql
-• retention_analysis.sql
-• basket_analysis.sql
-• recommendation_engine.sql
-
-notebooks/
-• visualization.ipynb
-
-visuals/
-• retention_curve.png
-• basket_distribution.png
-• orders_by_hour.png
-• clv_distribution.png
-• product_pairs.png
-
-
-
-## Key Analyses
-
-### 1. Customer Retention Analysis
-
-Analyzed how many users return for additional orders.
-
-Insight:
-Customer drop-off is highest after the **first purchase**, suggesting onboarding and first-order experience are critical for retention.
-
----
-
-### 2. Basket Size Distribution
-
-Measured how many products customers buy per order.
-
-Insight:
-Most orders contain **5–15 products**, indicating typical grocery basket behavior.
-
----
-
-### 3. Customer Lifetime Value (CLV Proxy)
-
-Estimated customer engagement using total products purchased across lifetime.
-
-Insight:
-A small group of highly active customers contributes a large portion of total purchases.
-
----
-
-### 4. Shopping Time Patterns
-
-Analyzed when customers place orders throughout the day.
-
-Insight:
-Peak ordering occurs between **late morning and afternoon**, suggesting ideal promotion timing.
-
----
-
+- The largest customer drop-off occurs early in the ordering lifecycle, making first-order and early-repeat experiences important retention touchpoints.
+- Basket size and reorder behaviour provide signals for identifying more engaged customers.
+- Product-pair relationships can support cross-selling and recommendation strategies.
+- Ordering-time patterns can help identify useful windows for promotions and engagement campaigns.
 
 ## Visualizations
 
-The project includes several analytical visualizations built using Matplotlib:
+![Retention Curve](Screenshot%202026-03-15%20143134.png)
 
-* Customer Retention Curve   ![Alt text]([path/to/your/image.png](https://github.com/aaravsaini2207-dev/instacart-customer-behavioranalysis/blob/721b6041c9b16698d2e54f2dfa3d17db897fab26/Screenshot%202026-03-15%20143134.png))
+![Survival Analysis](Screenshot%202026-03-15%20143108.png)
 
-* SURVIVAL RETENTION CURVE ![Alt text](path/to/your/image.png)
+![Basket Analysis](Screenshot%202026-03-15%20143158.png)
 
-* Basket Size Distribution
-* Orders by Hour of Day
-* Customer Lifetime Value Distribution
-* Product Pair Relationships
+Additional visual outputs cover ordering time, CLV distribution, and product relationships.
 
+## Repository
 
-## Tools & Technologies
+```text
+instacart-customer-behavior-analysis/
+├── instacart-customer-behavior-analysis.sql
+├── Screenshot *.png
+├── README.md
+└── .gitattributes
+```
 
-SQL (MySQL)
-Python
-Pandas
-Matplotlib
+## Run the SQL analysis
 
-These tools were used to build an **end-to-end analytics workflow from raw data to insight generation**.
+1. Load the five Instacart CSV tables into MySQL.
+2. Update the local CSV paths in the `LOAD DATA INFILE` statements.
+3. Execute the SQL script in sections.
+4. Export/query the resulting customer-level and retention tables for visualization.
 
+> The SQL file currently contains Windows/MySQL local file paths by design. Replace those paths with the location of your downloaded Instacart CSV files before running it on another machine.
 
+## Tools
 
-## Key Business Insights
+**MySQL · SQL · Python · Pandas · Matplotlib · Jupyter**
 
-1. The majority of churn occurs after the **first order**, highlighting the importance of improving the initial customer experience.
+## Extensions
 
-2. Customers who place larger baskets tend to remain active longer.
-
-3. Grocery purchases show strong product pairing patterns that can be leveraged for **recommendation systems and promotions**.
-
-4. A small segment of highly engaged users drives a disproportionate amount of purchasing activity.
-
-
-
-## Future Improvements
-
-Possible extensions to this project include:
-
-* Building a churn prediction model
-* Implementing collaborative filtering for product recommendations
-* Creating a customer segmentation model
-* Deploying a dashboard for real-time analytics
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- Customer segmentation
+- Churn prediction
+- Collaborative filtering / recommendation models
+- Interactive analytics dashboard
